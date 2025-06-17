@@ -1,0 +1,399 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+}
+
+body {
+    background-color: #14151d;
+    color: #f5f4f5;
+    line-height: 1.6;
+    padding-bottom: 2rem;
+    position: relative;
+}
+
+.main-header {
+    background-color: #23242c;
+    padding: 1rem 0;
+    border-bottom: 1px solid #3e3c41;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-header h1 {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+.main-nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.main-nav a {
+    color: #98959d;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    color: #9282fa;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.calculator {
+    background-color: #23242c;
+    border-radius: 0.75rem;
+    padding: 2.344rem 2.5rem;
+    margin-top: 2rem;
+}
+
+.calculator h2 {
+    margin-bottom: 1.5rem;
+}
+
+.input-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field label {
+    font-size: 1rem;
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.input-field input {
+    width: 100%;
+    height: 3rem;
+    border: 1px solid #3e3c41;
+    padding: 0.87rem 0.75rem;
+    border-radius: 0.5rem;
+    background-color: transparent;
+    color: #98959d;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+}
+
+.input-field input:focus {
+    border: 1.5px solid #9282fa;
+    outline: none;
+}
+
+.strategy-type {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.strategy-type button {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #3e3c41;
+    border-radius: 0.5rem;
+    background-color: transparent;
+    color: #98959d;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 700;
+}
+
+.strategy-type button.active {
+    background-color: #9282fa;
+    color: #050505;
+    border-color: #9282fa;
+}
+
+.tipo-container-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.tipo-container {
+    flex: 1;
+}
+
+.tipo-container select {
+    width: 100%;
+    height: 3rem;
+    border: 1px solid #3e3c41;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: transparent;
+    color: #98959d;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+}
+
+.tipo-container select:focus {
+    border: 1.5px solid #9282fa;
+    outline: none;
+}
+
+#calculoTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background-color: #23242c;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+#calculoTable th,
+#calculoTable td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #3e3c41;
+}
+
+#calculoTable th {
+    background-color: #2e2c30;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+#calculoTable tr {
+    color: #98959d;
+    transition: background-color 0.3s ease;
+}
+
+#calculoTable tr:hover {
+    background-color: #2e2c30;
+}
+
+#calculoTable tr.loss {
+    color: #ff4d4d;
+    background-color: rgba(255, 77, 77, 0.1);
+}
+
+#calculoTable tr.win {
+    color: #4dff4d;
+    background-color: rgba(77, 255, 77, 0.1);
+}
+
+.win-loss-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.win-button,
+.loss-button {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.win-button {
+    background-color: #4dff4d;
+    color: #050505;
+}
+
+.loss-button {
+    background-color: #ff4d4d;
+    color: #ffffff;
+}
+
+.win-button:hover,
+.loss-button:hover {
+    transform: scale(1.05);
+}
+
+.apagar-button {
+    background-color: #3e3c41;
+    color: #ffffff;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.apagar-button:hover {
+    transform: scale(1.05);
+    background-color: #4a484d;
+}
+
+.historico-container {
+    margin-top: 2rem;
+}
+
+.historico-stats {
+    display: flex;
+    justify-content: space-between;
+    background-color: #2e2c30;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stat-item span:first-child {
+    color: #98959d;
+    font-size: 0.9rem;
+}
+
+.stat-item span:last-child {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.historico-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.historico-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #2e2c30;
+    border-radius: 0.5rem;
+}
+
+.historico-item.win {
+    border-left: 4px solid #4dff4d;
+}
+
+.historico-item.loss {
+    border-left: 4px solid #ff4d4d;
+}
+
+.checkbox-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    color: #98959d;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    position: relative;
+    appearance: none;
+    border: 2px solid #3e3c41;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.checkbox-container input[type="checkbox"]:checked {
+    border-color: transparent;
+}
+
+.checkbox-container input[type="checkbox"][data-tipo="win"] {
+    background-color: transparent;
+}
+
+.checkbox-container input[type="checkbox"][data-tipo="win"]:checked {
+    background-color: #4dff4d;
+}
+
+.checkbox-container input[type="checkbox"][data-tipo="loss"] {
+    background-color: transparent;
+}
+
+.checkbox-container input[type="checkbox"][data-tipo="loss"]:checked {
+    background-color: #ff4d4d;
+}
+
+.banca-atual {
+    font-weight: bold;
+    margin-top: 1rem;
+    padding: 1.5rem;
+    background-color: #2e2c30;
+    border-radius: 0.5rem;
+    text-align: center;
+    color: #ffffff;
+}
+
+.positivo {
+    color: #4dff4d;
+}
+
+.negativo {
+    color: #ff4d4d;
+}
+
+footer {
+    background-color: #2e2c30;
+    color: #98959d;
+    text-align: center;
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    :root {
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
+    .calculator {
+        padding: 1.5rem;
+    }
+
+    .input-group {
+        grid-template-columns: 1fr;
+    }
+}
+
+.voltar-button {
+    background-color: #3e3c41;
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.voltar-button:hover {
+    background-color: #4a484d;
+}

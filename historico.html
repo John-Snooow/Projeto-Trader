@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico - Projeto Trader</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-container">
+            <h1>Projeto Trader</h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Calculadora</a></li>
+                    <li><a href="historico.html" class="active">Histórico</a></li>
+                    <li><a href="configuracoes.html">Configurações</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="calculator">
+                <h2>Histórico de Operações</h2>
+                <div class="win-loss-buttons">
+                    <button id="winButton" class="win-button">WIN</button>
+                    <button id="lossButton" class="loss-button">LOSS</button>
+                    <button id="voltarButton" class="voltar-button">VOLTAR</button>
+                    <button id="apagarButton" class="apagar-button">APAGAR</button>
+                </div>
+                <div class="historico-container">
+                    <div class="historico-stats">
+                        <div class="stat-item">
+                            <span>Total WIN:</span>
+                            <span id="totalWin">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Total LOSS:</span>
+                            <span id="totalLoss">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Taxa de Acerto:</span>
+                            <span id="winRate">0%</span>
+                        </div>
+                    </div>
+                    <div id="historicoLista" class="historico-lista"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Projeto Trader. Direitos reservados a John Frank.</p>
+    </footer>
+    <script src="historico.js"></script>
+</body>
+</html>

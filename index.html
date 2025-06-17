@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Trader</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-container">
+            <h1>Projeto Trader</h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active">Calculadora</a></li>
+                    <li><a href="historico.html">Histórico</a></li>
+                    <li><a href="configuracoes.html">Configurações</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="calculator">
+                <div class="input-group">
+                    <div class="input-field">
+                        <label>Banca (R$)</label>
+                        <input type="number" id="banca" value="100.00" step="0.01">
+                    </div>
+                    <div class="input-field">
+                        <label>Payout (%)</label>
+                        <input type="number" id="payout" value="80" step="1">
+                    </div>
+                    <div class="input-field">
+                        <label>Retorno (%)</label>
+                        <input type="number" id="retorno" value="1.00" step="0.01">
+                    </div>
+                    <div class="input-field">
+                        <label>ou R$</label>
+                        <input type="number" id="retornoFixo" value="10.00" step="0.01">
+                    </div>
+                </div>
+                <div class="strategy-type">
+                    <button class="active" id="martingaleBtn">Martingale</button>
+                </div>
+                <div class="tipo-container-wrapper">
+                    <div class="tipo-container">
+                        <label>Tipo:</label>
+                        <select id="tipoOperacao">
+                            <option value="conservador">Conservador</option>
+                            <option value="moderado">Moderado</option>
+                            <option value="agressivo">Agressivo</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <label>Número de Martingales:</label>
+                        <input type="number" id="numMartingales" value="3" min="1" max="7" step="1">
+                    </div>
+                </div>
+                <table id="calculoTable">
+                    <thead>
+                        <tr>
+                            <th>N</th>
+                            <th>Valor</th>
+                            <th>Retorno</th>
+                            <th>% da Banca</th>
+                            <th>Controle</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="banca-atual" id="bancaAtual"></div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Projeto Trader. Direitos reservados a John Frank.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
