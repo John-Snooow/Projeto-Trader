@@ -180,19 +180,19 @@ body {
 
 #calculoTable tr {
     color: #98959d;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 #calculoTable tr:hover {
     background-color: #2e2c30;
 }
 
-#calculoTable tr.loss {
+#calculoTable tr.loss:has(input[type="checkbox"]:checked) {
     color: #ff4d4d;
     background-color: rgba(255, 77, 77, 0.1);
 }
 
-#calculoTable tr.win {
+#calculoTable tr.win:has(input[type="checkbox"]:checked) {
     color: #4dff4d;
     background-color: rgba(77, 255, 77, 0.1);
 }
