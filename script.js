@@ -184,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         atualizarBanca();
-        atualizarTabela(); // Recalcula a tabela com o novo saldo
     }
 
     // Event Listeners
@@ -192,8 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     [banca, payout, retorno, retornoFixo, tipoOperacao, numMartingales].forEach(input => {
         input.addEventListener('input', () => {
-            atualizarTabela();
-            atualizarBanca();
             salvarDados();
         });
     });
@@ -208,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     martingaleBtn.addEventListener('click', () => {
         martingaleBtn.classList.add('active');
         atualizarTabela();
+        atualizarBanca();
     });
 
     // Inicializar tabela
