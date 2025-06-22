@@ -160,6 +160,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Função para adicionar operação ao histórico global
+    function adicionarOperacaoHistorico(tipo) {
+        const historico = JSON.parse(localStorage.getItem('historico')) || [];
+        let totalWin = parseInt(localStorage.getItem('totalWin')) || 0;
+        let totalLoss = parseInt(localStorage.getItem('totalLoss')) || 0;
+        const operacao = {
+            tipo,
+            data: new Date().toLocaleString('pt-BR')
+        };
+        historico.unshift(operacao);
+        localStorage.setItem('historico', JSON.stringify(historico));
+        if (tipo === 'win') {
+            totalWin++;
+            localStorage.setItem('totalWin', totalWin);
+        } else {
+            totalLoss++;
+            localStorage.setItem('totalLoss', totalLoss);
+        }
+    }
+
     function handleCheckboxChange(e) {
         const checkbox = e.target;
         const tipo = checkbox.dataset.tipo;
@@ -174,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
         row.classList.remove('win', 'loss');
         if (checkbox.checked) {
             row.classList.add(tipo);
+            adicionarOperacaoHistorico(tipo); // ADICIONA NO HISTÓRICO GLOBAL
         }
         const numero = checkbox.id.split('_')[1];
 

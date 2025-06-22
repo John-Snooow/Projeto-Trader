@@ -397,3 +397,102 @@ footer {
 .voltar-button:hover {
     background-color: #4a484d;
 }
+
+/* Calendário customizado compacto ao lado dos botões */
+#customCalendar {
+    display: flex;
+    flex-direction: column;
+    background: #23242c;
+    border-radius: 0.4rem;
+    padding: 0.4rem 0.4rem 0.2rem 0.4rem;
+    min-width: 150px;
+    max-width: 180px;
+    box-shadow: none;
+}
+.custom-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.1rem;
+}
+.custom-calendar-header button {
+    background: none;
+    border: none;
+    color: #9282fa;
+    font-size: 0.95rem;
+    cursor: pointer;
+    padding: 0 0.15rem;
+    transition: color 0.2s;
+    line-height: 1;
+}
+.custom-calendar-header button:hover {
+    color: #f5f4f5;
+}
+.custom-calendar-title {
+    color: #f5f4f5;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+.custom-calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.05rem;
+    margin-bottom: 0.05rem;
+}
+.custom-calendar-day-name {
+    color: #9282fa;
+    font-size: 0.75rem;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 0.05rem;
+}
+.custom-calendar-dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.05rem;
+}
+.custom-calendar-date {
+    color: #f5f4f5;
+    background: none;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 0.92rem;
+    padding: 0.18rem 0;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    min-width: 1.7rem;
+    min-height: 1.7rem;
+    line-height: 1.2;
+}
+.custom-calendar-date:hover {
+    background: #14151d;
+    color: #9282fa;
+}
+.custom-calendar-date.selected {
+    background: #9282fa;
+    color: #23242c;
+    font-weight: bold;
+}
+.custom-calendar-date.today {
+    border: 1.2px solid #9282fa;
+}
+.custom-calendar-date.disabled {
+    color: #3e3c41;
+    pointer-events: none;
+    background: none;
+}
+
+@media (max-width: 700px) {
+  .calendar-flex-row {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 0.7rem !important;
+  }
+  #customCalendar {
+    margin-bottom: 0.7rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

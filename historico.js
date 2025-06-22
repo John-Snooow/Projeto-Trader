@@ -70,16 +70,126 @@ document.addEventListener('DOMContentLoaded', () => {
         atualizarHistoricoLista();
     }
 
+    // CALENDÁRIO CUSTOMIZADO
+    const customCalendar = document.getElementById('customCalendar');
+    let filtroData = null;
+    let calendarMonth = new Date().getMonth();
+    let calendarYear = new Date().getFullYear();
+
+    function renderCustomCalendar(month, year) {
+        if (!customCalendar) return;
+        customCalendar.innerHTML = '';
+        const diasSemana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+        const header = document.createElement('div');
+        header.className = 'custom-calendar-header';
+        const prevBtn = document.createElement('button');
+        prevBtn.innerHTML = '&#8592;';
+        prevBtn.onclick = () => {
+            if (month === 0) {
+                calendarMonth = 11;
+                calendarYear--;
+            } else {
+                calendarMonth--;
+            }
+            renderCustomCalendar(calendarMonth, calendarYear);
+        };
+        const nextBtn = document.createElement('button');
+        nextBtn.innerHTML = '&#8594;';
+        nextBtn.onclick = () => {
+            if (month === 11) {
+                calendarMonth = 0;
+                calendarYear++;
+            } else {
+                calendarMonth++;
+            }
+            renderCustomCalendar(calendarMonth, calendarYear);
+        };
+        const title = document.createElement('span');
+        title.className = 'custom-calendar-title';
+        title.textContent = `${('0'+(month+1)).slice(-2)}/${year}`;
+        header.appendChild(prevBtn);
+        header.appendChild(title);
+        header.appendChild(nextBtn);
+        customCalendar.appendChild(header);
+
+        // Dias da semana
+        const daysRow = document.createElement('div');
+        daysRow.className = 'custom-calendar-days';
+        diasSemana.forEach(dia => {
+            const dayName = document.createElement('div');
+            dayName.className = 'custom-calendar-day-name';
+            dayName.textContent = dia;
+            daysRow.appendChild(dayName);
+        });
+        customCalendar.appendChild(daysRow);
+
+        // Datas
+        const datesGrid = document.createElement('div');
+        datesGrid.className = 'custom-calendar-dates';
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month+1, 0).getDate();
+        const today = new Date();
+        // Preencher dias vazios antes do 1º dia
+        for (let i = 0; i < firstDay; i++) {
+            const empty = document.createElement('div');
+            empty.className = 'custom-calendar-date disabled';
+            datesGrid.appendChild(empty);
+        }
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dateBtn = document.createElement('button');
+            dateBtn.className = 'custom-calendar-date';
+            dateBtn.textContent = d;
+            const dataStr = `${year}-${('0'+(month+1)).slice(-2)}-${('0'+d).slice(-2)}`;
+            dateBtn.dataset.date = dataStr;
+            // Destacar hoje
+            if (
+                d === today.getDate() &&
+                month === today.getMonth() &&
+                year === today.getFullYear()
+            ) {
+                dateBtn.classList.add('today');
+            }
+            // Destacar selecionado
+            if (filtroData === dataStr) {
+                dateBtn.classList.add('selected');
+            }
+            dateBtn.onclick = () => {
+                filtroData = dataStr;
+                renderCustomCalendar(calendarMonth, calendarYear);
+                atualizarHistoricoLista();
+            };
+            datesGrid.appendChild(dateBtn);
+        }
+        // Preencher até completar a última linha
+        const totalCells = firstDay + daysInMonth;
+        for (let i = totalCells; i % 7 !== 0; i++) {
+            const empty = document.createElement('div');
+            empty.className = 'custom-calendar-date disabled';
+            datesGrid.appendChild(empty);
+        }
+        customCalendar.appendChild(datesGrid);
+    }
+
+    function formatarDataParaInput(dateString) {
+        // dateString no formato 'dd/mm/yyyy, hh:mm:ss'
+        const [data] = dateString.split(',');
+        const [dia, mes, ano] = data.split('/');
+        return `${ano}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+    }
+
     function atualizarHistoricoLista() {
         historicoLista.innerHTML = '';
         historico.forEach(operacao => {
-            const item = document.createElement('div');
-            item.className = `historico-item ${operacao.tipo}`;
-            item.innerHTML = `
-                <span>${operacao.tipo.toUpperCase()}</span>
-                <span>${operacao.data}</span>
-            `;
-            historicoLista.appendChild(item);
+            const dataOperacao = formatarDataParaInput(operacao.data);
+            if (!filtroData || filtroData === dataOperacao) {
+                const item = document.createElement('div');
+                item.className = `historico-item ${operacao.tipo}`;
+                item.innerHTML = `
+                    <span>${operacao.tipo.toUpperCase()}</span>
+                    <span>${operacao.data}</span>
+                `;
+                historicoLista.appendChild(item);
+            }
         });
     }
 
@@ -87,6 +197,9 @@ document.addEventListener('DOMContentLoaded', () => {
     lossButton.addEventListener('click', () => adicionarOperacao('loss'));
     voltarButton.addEventListener('click', desfazerUltimaOperacao);
     apagarButton.addEventListener('click', apagarHistorico);
+
+    // Inicialização do calendário customizado
+    renderCustomCalendar(calendarMonth, calendarYear);
 
     atualizarEstatisticas();
     atualizarHistoricoLista();
