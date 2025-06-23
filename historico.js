@@ -20,6 +20,32 @@ document.addEventListener('DOMContentLoaded', () => {
         winRateElement.textContent = `${winRate}%`;
     }
 
+    function atualizarEstatisticasDia() {
+        const totalWinDiaElement = document.getElementById('totalWinDia');
+        const totalLossDiaElement = document.getElementById('totalLossDia');
+        const winRateDiaElement = document.getElementById('winRateDia');
+        if (!filtroData) {
+            totalWinDiaElement.textContent = '0';
+            totalLossDiaElement.textContent = '0';
+            winRateDiaElement.textContent = '0%';
+            return;
+        }
+        let winDia = 0;
+        let lossDia = 0;
+        historico.forEach(operacao => {
+            const dataOperacao = formatarDataParaInput(operacao.data);
+            if (dataOperacao === filtroData) {
+                if (operacao.tipo === 'win') winDia++;
+                else if (operacao.tipo === 'loss') lossDia++;
+            }
+        });
+        const totalDia = winDia + lossDia;
+        const winRateDia = totalDia > 0 ? ((winDia / totalDia) * 100).toFixed(1) : '0';
+        totalWinDiaElement.textContent = winDia;
+        totalLossDiaElement.textContent = lossDia;
+        winRateDiaElement.textContent = `${winRateDia}%`;
+    }
+
     function adicionarOperacao(tipo) {
         const operacao = {
             tipo,
@@ -157,6 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 filtroData = dataStr;
                 renderCustomCalendar(calendarMonth, calendarYear);
                 atualizarHistoricoLista();
+                atualizarEstatisticasDia();
             };
             datesGrid.appendChild(dateBtn);
         }
@@ -191,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 historicoLista.appendChild(item);
             }
         });
+        atualizarEstatisticasDia();
     }
 
     winButton.addEventListener('click', () => adicionarOperacao('win'));
@@ -202,5 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCustomCalendar(calendarMonth, calendarYear);
 
     atualizarEstatisticas();
+    atualizarEstatisticasDia();
     atualizarHistoricoLista();
 });
