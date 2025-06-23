@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     row.classList.add(resultado.tipo);
                 }
             });
-            atualizarBanca();
         }
     }
 
@@ -184,12 +183,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkbox = e.target;
         const tipo = checkbox.dataset.tipo;
         const row = checkbox.closest('tr');
-        
         // Desmarca o outro checkbox da mesma linha
         const outroTipo = tipo === 'win' ? 'loss' : 'win';
         const outroCheckbox = row.querySelector(`[data-tipo="${outroTipo}"]`);
         if (outroCheckbox) outroCheckbox.checked = false;
-        
         // Atualiza as classes da linha
         row.classList.remove('win', 'loss');
         if (checkbox.checked) {
@@ -197,13 +194,11 @@ document.addEventListener('DOMContentLoaded', () => {
             adicionarOperacaoHistorico(tipo); // ADICIONA NO HISTÓRICO GLOBAL
         }
         const numero = checkbox.id.split('_')[1];
-
         if (checkbox.checked) {
             // Desmarcar o checkbox oposto
             const outroTipo = tipo === 'win' ? 'loss' : 'win';
             document.getElementById(`${outroTipo}_${numero}`).checked = false;
         }
-
         atualizarBanca();
     }
 

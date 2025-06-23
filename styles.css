@@ -496,3 +496,10 @@ footer {
     margin-right: 0;
   }
 }
+
+.calendar-flex-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 15rem !important;
+    margin-bottom: 1.5rem;
+}
