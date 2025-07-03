@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         atualizarEstatisticas();
         atualizarHistoricoLista();
+        renderCustomCalendar(calendarMonth, calendarYear);
     }
 
     function desfazerUltimaOperacao() {
@@ -160,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
         header.appendChild(nextBtn);
         customCalendar.appendChild(header);
 
-        // Dias da semana
         const daysRow = document.createElement('div');
         daysRow.className = 'custom-calendar-days';
         diasSemana.forEach(dia => {
@@ -171,36 +171,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         customCalendar.appendChild(daysRow);
 
-        // Datas
         const datesGrid = document.createElement('div');
         datesGrid.className = 'custom-calendar-dates';
         const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month+1, 0).getDate();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
         const today = new Date();
-        // Preencher dias vazios antes do 1º dia
+
         for (let i = 0; i < firstDay; i++) {
             const empty = document.createElement('div');
             empty.className = 'custom-calendar-date disabled';
             datesGrid.appendChild(empty);
         }
+
         for (let d = 1; d <= daysInMonth; d++) {
             const dateBtn = document.createElement('button');
             dateBtn.className = 'custom-calendar-date';
             dateBtn.textContent = d;
-            const dataStr = `${year}-${('0'+(month+1)).slice(-2)}-${('0'+d).slice(-2)}`;
+            const dataStr = `${year}-${('0' + (month + 1)).slice(-2)}-${('0' + d).slice(-2)}`;
             dateBtn.dataset.date = dataStr;
-            // Destacar hoje
-            if (
-                d === today.getDate() &&
-                month === today.getMonth() &&
-                year === today.getFullYear()
-            ) {
+
+            const operacoesDoDia = historico.filter(op => formatarDataParaInput(op.data) === dataStr);
+            if (operacoesDoDia.length > 0) {
+                let lossConsecutivos = 0;
+                let maxLossConsecutivos = 0;
+                for (const op of operacoesDoDia) {
+                    if (op.tipo === 'loss') {
+                        lossConsecutivos++;
+                    } else {
+                        maxLossConsecutivos = Math.max(maxLossConsecutivos, lossConsecutivos);
+                        lossConsecutivos = 0;
+                    }
+                }
+                maxLossConsecutivos = Math.max(maxLossConsecutivos, lossConsecutivos);
+
+                if (maxLossConsecutivos >= 2) {
+                    dateBtn.classList.add('day-has-loss');
+                } else {
+                    dateBtn.classList.add('day-has-win');
+                }
+            }
+
+            if (d === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
                 dateBtn.classList.add('today');
             }
-            // Destacar selecionado
             if (filtroData === dataStr) {
                 dateBtn.classList.add('selected');
             }
+
             dateBtn.onclick = () => {
                 filtroData = dataStr;
                 renderCustomCalendar(calendarMonth, calendarYear);
@@ -209,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             datesGrid.appendChild(dateBtn);
         }
-        // Preencher até completar a última linha
+
         const totalCells = firstDay + daysInMonth;
         for (let i = totalCells; i % 7 !== 0; i++) {
             const empty = document.createElement('div');
