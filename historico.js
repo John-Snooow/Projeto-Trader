@@ -86,12 +86,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function apagarHistorico() {
-        historico = [];
-        totalWin = 0;
-        totalLoss = 0;
-        localStorage.removeItem('historico');
-        localStorage.removeItem('totalWin');
-        localStorage.removeItem('totalLoss');
+        if (!filtroData) return;
+
+        let winsRemovidos = 0;
+        let lossesRemovidos = 0;
+        
+        const novoHistorico = [];
+
+        for (const operacao of historico) {
+            const dataOperacao = formatarDataParaInput(operacao.data);
+            if (dataOperacao === filtroData) {
+                if (operacao.tipo === 'win') {
+                    winsRemovidos++;
+                } else {
+                    lossesRemovidos++;
+                }
+            } else {
+                novoHistorico.push(operacao);
+            }
+        }
+
+        historico = novoHistorico;
+        totalWin -= winsRemovidos;
+        totalLoss -= lossesRemovidos;
+
+        localStorage.setItem('historico', JSON.stringify(historico));
+        localStorage.setItem('totalWin', totalWin);
+        localStorage.setItem('totalLoss', totalLoss);
+
         atualizarEstatisticas();
         atualizarHistoricoLista();
     }
