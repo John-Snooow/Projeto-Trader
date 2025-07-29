@@ -254,11 +254,11 @@
                     <td class="p-3">
                         <div class="flex space-x-4">
                             <label class="inline-flex items-center">
-                                <input type="radio" name="result-${op.number}" value="win" class="form-radio h-5 w-5 text-green-500" ${op.result === 'win' ? 'checked' : ''}>
+                                <input type="radio" name="result-${op.number}" value="win" class="form-radio h-5 w-5 text-green-500 focus:ring-green-500" ${op.result === 'win' ? 'checked' : ''}>
                                 <span class="ml-2">WIN</span>
                             </label>
                             <label class="inline-flex items-center">
-                                <input type="radio" name="result-${op.number}" value="loss" class="form-radio h-5 w-5 text-red-500" ${op.result === 'loss' ? 'checked' : ''}>
+                                <input type="radio" name="result-${op.number}" value="loss" class="form-radio h-5 w-5 text-red-500 focus:ring-red-500" ${op.result === 'loss' ? 'checked' : ''}>
                                 <span class="ml-2">LOSS</span>
                             </label>
                         </div>
@@ -314,11 +314,7 @@
         function updateBalanceDisplay() {
             calculatorElements.balanceValue.textContent = currentBankValue.toFixed(2);
             
-            if (currentBankValue >= parseFloat(calculatorElements.bankValue.value || 0)) {
-                calculatorElements.currentBalance.className = 'text-lg font-bold px-4 py-2 rounded-md bg-green-900 text-green-100';
-            } else {
-                calculatorElements.currentBalance.className = 'text-lg font-bold px-4 py-2 rounded-md bg-red-900 text-red-100';
-            }
+            calculatorElements.currentBalance.className = 'text-lg font-bold px-4 py-2 rounded-md bg-green-900 text-green-100';
         }
 
         function saveOperation() {
