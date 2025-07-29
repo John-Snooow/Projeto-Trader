@@ -12,14 +12,12 @@
 
         // DOM Elements
         const pages = {
-            calculator: document.getElementById('calculator-page'),
-            history: document.getElementById('history-page'),
+            main: document.getElementById('main-page'),
             settings: document.getElementById('settings-page')
         };
 
         const navLinks = {
-            calculator: document.getElementById('nav-calculator'),
-            history: document.getElementById('nav-history'),
+            main: document.getElementById('nav-main'),
             settings: document.getElementById('nav-settings')
         };
 
@@ -93,21 +91,18 @@
 
         // Navigation functions
         function setupNavigation() {
-            navLinks.calculator.addEventListener('click', () => showPage('calculator'));
-            navLinks.history.addEventListener('click', () => showPage('history'));
+            navLinks.main.addEventListener('click', () => showPage('main'));
             navLinks.settings.addEventListener('click', () => showPage('settings'));
         }
 
         function showPage(pageName) {
             // Hide all pages
             Object.values(pages).forEach(page => page.classList.add('hidden'));
-            
             // Remove active class from all nav links
             Object.values(navLinks).forEach(link => link.classList.remove('active'));
-            
             // Show selected page and mark nav link as active
-            pages[pageName].classList.remove('hidden');
-            navLinks[pageName].classList.add('active');
+            if (pages[pageName]) pages[pageName].classList.remove('hidden');
+            if (navLinks[pageName]) navLinks[pageName].classList.add('active');
         }
 
         // Data management functions
