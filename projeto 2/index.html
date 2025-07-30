@@ -148,7 +148,7 @@
                     </div>
                     <div class="card rounded-lg shadow-lg p-6">
                         <h2 class="text-xl font-bold mb-4">Operações do Dia</h2>
-                        <div id="daily-stats" class="hidden mb-4">
+                        <div id="daily-stats" class="hidden mb-4"></div>
                             <div class="flex justify-between items-center mb-2">
                                 <h3 class="font-medium" id="selected-date">Data selecionada</h3>
                                 <div class="flex space-x-2">
@@ -160,12 +160,15 @@
                                 <div id="daily-progress" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
                             </div>
                         </div>
-                        <div id="operations-list" class="space-y-3">
+                        <div id="operations-list" class="space-y-3"></div>
                             <div class="text-center py-8 text-gray-500">
                                 <i class="fas fa-calendar-alt text-4xl mb-2"></i>
                                 <p>Selecione um dia no calendário para ver as operações</p>
                             </div>
                         </div>
+                    </div>
+                    <!-- Adiciona gap entre Operações do Dia e Calendário -->
+                    <div class="mb-6"></div>
                     </div>
                     <div class="card rounded-lg shadow-lg p-6 mb-6">
                         <h2 class="text-xl font-bold mb-4">Calendário</h2>
@@ -193,14 +196,7 @@
                     </div>
                     <div class="card rounded-lg shadow-lg p-6">
                         <h2 class="text-xl font-bold mb-4">Ações</h2>
-                        <div class="grid grid-cols-2 gap-4">
-                            <button id="register-win" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-md transition">
-                                <i class="fas fa-check mr-2"></i>WIN
-                            </button>
-                            <button id="register-loss" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-md transition">
-                                <i class="fas fa-times mr-2"></i>LOSS
-                            </button>
-                        </div>
+                       
                         <div class="mt-4 grid grid-cols-2 gap-4">
                             <button id="back-to-today" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition">
                                 <i class="fas fa-calendar-day mr-2"></i>Hoje
