@@ -191,6 +191,142 @@ function calcularEntradas() {
 }
 
 window.addEventListener('DOMContentLoaded', function() {
+    // Função para atualizar o gráfico do dashboard conforme filtro
+    function atualizarDashboardGrafico() {
+        const ctx = document.getElementById('history-chart').getContext('2d');
+        const periodo = document.getElementById('time-period').value;
+        const tipoGrafico = document.getElementById('chart-type').value;
+        let anoSelecionado, mesSelecionado;
+        // Pega mês/ano do dashboard
+        if (periodo === 'month') {
+            const currentMonthLabel = document.getElementById('current-month');
+            if (currentMonthLabel) {
+                const partes = currentMonthLabel.textContent.split(' ');
+                const nomesMes = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+                mesSelecionado = nomesMes.indexOf(partes[0]);
+                anoSelecionado = parseInt(partes[1]);
+            } else {
+                const hoje = new Date();
+                mesSelecionado = hoje.getMonth();
+                anoSelecionado = hoje.getFullYear();
+            }
+        } else {
+            const hoje = new Date();
+            mesSelecionado = hoje.getMonth();
+            anoSelecionado = hoje.getFullYear();
+        }
+
+        let labels = [];
+        let dataWins = [];
+        let dataLosses = [];
+        let tooltips = [];
+
+        if (periodo === 'month') {
+            // Mostra todos os dias do mês selecionado
+            const diasNoMes = new Date(anoSelecionado, mesSelecionado + 1, 0).getDate();
+            for (let dia = 1; dia <= diasNoMes; dia++) {
+                labels.push(dia.toString());
+                const opsDia = estatisticasGlobais.filter(e => {
+                    const [d,m,y] = e.data.split('/');
+                    return parseInt(d) === dia && parseInt(m) === (mesSelecionado+1) && parseInt(y) === anoSelecionado;
+                });
+                dataWins.push(opsDia.filter(e => e.tipo === 'win').length);
+                dataLosses.push(opsDia.filter(e => e.tipo === 'loss').length);
+                // Tooltip detalhado por dia
+                let detalhes = opsDia.map(e => `${e.tipo.toUpperCase()} | R$ ${e.valor.toFixed(2)} | ${e.hora}`).join('\n');
+                tooltips.push(detalhes || 'Nenhuma operação');
+            }
+        } else if (periodo === 'year') {
+            // Mostra todos os meses do ano selecionado
+            labels = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+            for (let m = 1; m <= 12; m++) {
+                const opsMes = estatisticasGlobais.filter(e => {
+                    const [d,m_,y] = e.data.split('/');
+                    return parseInt(m_) === m && parseInt(y) === anoSelecionado;
+                });
+                dataWins.push(opsMes.filter(e => e.tipo === 'win').length);
+                dataLosses.push(opsMes.filter(e => e.tipo === 'loss').length);
+                // Tooltip detalhado por mês
+                let detalhes = opsMes.map(e => `${e.tipo.toUpperCase()} | Dia ${e.data} | R$ ${e.valor.toFixed(2)} | ${e.hora}`).join('\n');
+                tooltips.push(detalhes || 'Nenhuma operação');
+            }
+        } else {
+            // Dia: mostra operações do dia atual
+            const hoje = new Date();
+            labels = ['Wins', 'Losses'];
+            const opsDia = estatisticasGlobais.filter(e => {
+                const [d,m,y] = e.data.split('/');
+                return parseInt(d) === hoje.getDate() && parseInt(m) === (hoje.getMonth()+1) && parseInt(y) === hoje.getFullYear();
+            });
+            dataWins = [opsDia.filter(e => e.tipo === 'win').length];
+            dataLosses = [opsDia.filter(e => e.tipo === 'loss').length];
+            let detalhes = opsDia.map(e => `${e.tipo.toUpperCase()} | R$ ${e.valor.toFixed(2)} | ${e.hora}`).join('\n');
+            tooltips = [detalhes || 'Nenhuma operação'];
+        }
+
+        // Remove gráfico anterior se existir
+        if (window.dashboardChart) {
+            window.dashboardChart.destroy();
+        }
+
+        // Cria novo gráfico
+        window.dashboardChart = new Chart(ctx, {
+            type: tipoGrafico,
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Wins',
+                        data: dataWins,
+                        backgroundColor: 'rgba(16,185,129,0.7)',
+                        borderColor: 'rgba(16,185,129,1)',
+                        borderWidth: 2,
+                        datalabels: {
+                            color: '#fff',
+                            anchor: 'end',
+                            align: 'top',
+                            font: { weight: 'bold' }
+                        }
+                    },
+                    {
+                        label: 'Losses',
+                        data: dataLosses,
+                        backgroundColor: 'rgba(239,68,68,0.7)',
+                        borderColor: 'rgba(239,68,68,1)',
+                        borderWidth: 2,
+                        datalabels: {
+                            color: '#fff',
+                            anchor: 'end',
+                            align: 'top',
+                            font: { weight: 'bold' }
+                        }
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    title: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const idx = context.dataIndex;
+                                return tooltips[idx];
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Atualiza o gráfico ao carregar e ao mudar filtros
+    if (document.getElementById('history-chart')) {
+        atualizarDashboardGrafico();
+        document.getElementById('time-period').addEventListener('change', atualizarDashboardGrafico);
+        document.getElementById('chart-type').addEventListener('change', atualizarDashboardGrafico);
+    }
     document.getElementById('calculate-btn').addEventListener('click', calcularEntradas);
     carregarOperacoesSalvas();
     atualizarEstatisticas();
